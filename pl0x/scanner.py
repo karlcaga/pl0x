@@ -1,5 +1,5 @@
-from lox.token_type import TokenType
-from lox.token import Token
+from pl0x.token_type import TokenType
+from pl0x.token import Token
 
 class Scanner:
     def __init__(self, source):
