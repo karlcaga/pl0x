@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://testpypi.org/p/pl0x
+      url: https://test.pypi.org/p/pl0x
     permissions:
       id-token: write
     steps:
