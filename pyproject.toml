@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "pl0x"
 requires-python = ">=3.12"
 dynamic = ["version"]
+readme = "README.md"
 description = "Interpreter for the Lox programming language"
 authors = [
     {name = "Karl Cagalawan", email = "karl.cagalawan@gmail.com"},
