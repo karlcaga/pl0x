@@ -3,30 +3,47 @@ name: "pl0x CI"
 on: [push]
 
 jobs:
-    pypi-publish:
-      name: Build pl0x package
-      runs-on: ubuntu-latest
-      environment:
-        name: pypi
-        url: https://testpypi.org/p/pl0x
-      permissions:
-        id-token: write
-      steps: 
-        - uses: actions/checkout@v4
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: "3.12"
-        - name: Install pypa/build
-          run: >-
-            python3 -m
-            pip install
-            build
-            --user
-        - name: Build a binary wheel and a source tarball
-          run: python3 -m build
-        - name: Store the distribution packages
-          uses: actions/upload-artifact@v3
-          with:
-            name: python-package-distributions
-            path: dist/
+  build-package:
+    name: Build pl0x package
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps: 
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pypa/build
+        run: >-
+          python3 -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: python3 -m build
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish-to-testpypi:
+    name: >-
+      Publish Python 🐍 distribution 📦 to testPyPI
+    needs:
+    - build-package
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://testpypi.org/p/pl0x
+    permissions:
+      id-token: write
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v3
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
