@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=72", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pl0x"
+requires-python = ">=3.12"
+dynamic = ["version"]
+description = "Interpreter for the Lox programming language"
+authors = [
+    {name = "Karl Cagalawan", email = "karl.cagalawan@gmail.com"},
+]
+
+[project.scripts]
+pl0x = "pl0x.cli:main"
+
+[project.urls]
+Repository = "https://www.github.com/karlcaga/pl0x"
+Issues = "https://github.com/karlcaga/pl0x/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pl0x"]
+namespaces = false
+
+[tool.setuptools_scm]
