@@ -44,6 +44,8 @@ class Scanner:
                 self.add_token(TokenType.MINUS)
             case "=":
                 self.add_token(TokenType.EQUAL_EQUAL if self.match("=") else TokenType.EQUAL)
+            case "!":
+                self.add_token(TokenType.BANG_EQUAL if self.match("=") else TokenType.BANG)
             case _:
                 ErrorReporter.error(self.line, "Unexpected character: " + c)
     def advance(self):

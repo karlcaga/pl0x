@@ -46,6 +46,15 @@ def test_equals():
     assert tokens[4].to_string() == "RIGHT_BRACE } null"
     assert tokens[5].to_string() == "EOF  null"
 
+def test_bang_equals():
+    scanner = Scanner("!!===")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 4
+    assert tokens[0].to_string() == "BANG ! null"
+    assert tokens[1].to_string() == "BANG_EQUAL != null"
+    assert tokens[2].to_string() == "EQUAL_EQUAL == null"
+    assert tokens[3].to_string() == "EOF  null"
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()

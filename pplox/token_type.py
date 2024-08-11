@@ -14,4 +14,6 @@ class TokenType(Enum):
     MINUS = "MINUS"
     EQUAL = "EQUAL"
     EQUAL_EQUAL = "EQUAL_EQUAL"
+    BANG = "BANG"
+    BANG_EQUAL = "BANG_EQUAL"
     EOF = "EOF"
