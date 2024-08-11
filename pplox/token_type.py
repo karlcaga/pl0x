@@ -12,4 +12,6 @@ class TokenType(Enum):
     SEMICOLON = "SEMICOLON"
     SLASH = "SLASH"
     MINUS = "MINUS"
+    EQUAL = "EQUAL"
+    EQUAL_EQUAL = "EQUAL_EQUAL"
     EOF = "EOF"

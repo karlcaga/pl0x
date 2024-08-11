@@ -42,6 +42,8 @@ class Scanner:
                 self.add_token(TokenType.SLASH)
             case "-":
                 self.add_token(TokenType.MINUS)
+            case "=":
+                self.add_token(TokenType.EQUAL_EQUAL if self.match("=") else TokenType.EQUAL)
             case _:
                 ErrorReporter.error(self.line, "Unexpected character: " + c)
     def advance(self):
@@ -51,3 +53,10 @@ class Scanner:
     def add_token(self, type, literal=None):
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
+    def match(self, expected):
+        if self.is_at_end():
+            return False
+        if self.source[self.current] != expected:
+            return False
+        self.current += 1
+        return True

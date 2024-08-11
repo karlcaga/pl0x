@@ -35,6 +35,17 @@ def test_single_characters():
     assert tokens[8].to_string() == "RIGHT_PAREN ) null"
     assert tokens[9].to_string() == "EOF  null"
 
+def test_equals():
+    scanner = Scanner("={===}")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 6
+    assert tokens[0].to_string() == "EQUAL = null"
+    assert tokens[1].to_string() == "LEFT_BRACE { null"
+    assert tokens[2].to_string() == "EQUAL_EQUAL == null"
+    assert tokens[3].to_string() == "EQUAL = null"
+    assert tokens[4].to_string() == "RIGHT_BRACE } null"
+    assert tokens[5].to_string() == "EOF  null"
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()
