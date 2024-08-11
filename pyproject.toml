@@ -18,6 +18,7 @@ pplox = "pplox.cli:main"
 [project.urls]
 Repository = "https://www.github.com/karlcaga/pplox"
 Issues = "https://github.com/karlcaga/pplox/issues"
+Documentation = "https://pplox.readthedocs.io/en/latest/"
 
 [tool.setuptools.packages.find]
 where = ["."]
