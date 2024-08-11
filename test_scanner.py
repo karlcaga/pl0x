@@ -65,6 +65,20 @@ def test_relational_operators():
     assert tokens[3].to_string() == "GREATER_EQUAL >= null"
     assert tokens[4].to_string() == "EOF  null"
 
+def test_comment():
+    scanner = Scanner("// Comment")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 1
+    assert tokens[0].to_string() == "EOF  null"
+
+def test_division():
+    scanner = Scanner("/")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 2
+    assert tokens[0].to_string() == "SLASH / null"
+    assert tokens[1].to_string() == "EOF  null"
+
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()
