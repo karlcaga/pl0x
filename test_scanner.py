@@ -109,6 +109,13 @@ def test_identifiers():
     assert tokens[2].to_string() == "IDENTIFIER _hello null"
     assert tokens[3].to_string() == "EOF  null"
 
+def test_keywords():
+    scanner = Scanner("and")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 2
+    assert tokens[0].to_string() == "AND and null"
+    assert tokens[1].to_string() == "EOF  null"
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()

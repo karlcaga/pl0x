@@ -3,6 +3,25 @@ from .token import Token
 from .error_reporter import ErrorReporter
 
 class Scanner:
+    KEYWORDS = {
+        "and": TokenType.AND,
+        "class":  TokenType.CLASS,
+        "else":   TokenType.ELSE,
+        "false":  TokenType.FALSE,
+        "for":    TokenType.FOR,
+        "fun":    TokenType.FUN,
+        "if":     TokenType.IF,
+        "nil":    TokenType.NIL,
+        "or":     TokenType.OR,
+        "print":  TokenType.PRINT,
+        "return": TokenType.RETURN,
+        "super":  TokenType.SUPER,
+        "this":   TokenType.THIS,
+        "true":   TokenType.TRUE,
+        "var":    TokenType.VAR,
+        "while":  TokenType.WHILE,
+    }
+
     def __init__(self, source):
         self.source = source
         self.tokens = []
@@ -114,8 +133,13 @@ class Scanner:
     def identifier(self):
         while self.is_alpha_numeric(self.peek()):
             self.advance()
-        self.add_token(TokenType.IDENTIFIER)
+        text = self.source[self.start : self.current]
+        type = self.KEYWORDS.get(text, None)
+        if type == None:
+            type = TokenType.IDENTIFIER
+        self.add_token(type)
     def is_alpha(self, c):
         return ("a" <= c <= "z") or ("A" <= c <= "Z") or c == "_"
     def is_alpha_numeric(self, c):
         return self.is_alpha(c) or self.is_digit(c)
+    
