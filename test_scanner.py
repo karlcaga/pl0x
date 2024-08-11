@@ -93,6 +93,14 @@ def test_string():
     assert tokens[0].to_string() == "STRING \"foo baz\" foo baz"
     assert tokens[1].to_string() == "EOF  null"
 
+def test_numbers():
+    scanner = Scanner("1234.1234")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 2
+    assert tokens[0].to_string() == "NUMBER 1234.1234 1234.1234"
+    assert tokens[1].to_string() == "EOF  null"
+
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()

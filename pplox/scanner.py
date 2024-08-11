@@ -61,7 +61,10 @@ class Scanner:
             case "\n":
                 self.line += 1
             case _:
-                ErrorReporter.error(self.line, "Unexpected character: " + c)
+                if self.is_digit(c):
+                    self.number()
+                else:
+                    ErrorReporter.error(self.line, "Unexpected character: " + c)
     def advance(self):
         c = self.source[self.current]
         self.current += 1
@@ -91,3 +94,18 @@ class Scanner:
         self.advance() # The closing ".
         value = self.source[self.start + 1: self.current - 1]
         self.add_token(TokenType.STRING, value)
+    def is_digit(self, c):
+        return "0" <= c <= "9"
+    def number(self):
+        while self.is_digit(self.peek()):
+            self.advance()
+        # Look for a fractional part
+        if self.peek() == "." and self.is_digit(self.peek_next()):
+            self.advance()
+            while self.is_digit(self.peek()):
+                self.advance()
+        self.add_token(TokenType.NUMBER, float(self.source[self.start : self.current]))
+    def peek_next(self):
+        if self.current + 1 >= len(self.source):
+            return "\0"
+        return self.source[self.current + 1]

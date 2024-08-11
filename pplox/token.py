@@ -9,5 +9,5 @@ class Token:
             literal = "null"
         else:
             literal = self.literal
-        return str(self.type.value) + " " + self.lexeme + " " + literal
+        return str(self.type.value) + " " + self.lexeme + " " + str(literal)
          
