@@ -1,4 +1,4 @@
-from pl0x.scanner import Scanner
+from pplox.scanner import Scanner
 
 def test_parens():
     scanner = Scanner("(()")

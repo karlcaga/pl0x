@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys
-from pl0x.scanner import Scanner
+from pplox.scanner import Scanner
 
 def main():
     if len(sys.argv) < 3:

@@ -3,7 +3,7 @@ requires = ["setuptools>=72", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pl0x"
+name = "pplox"
 requires-python = ">=3.12"
 dynamic = ["version"]
 readme = "README.md"
@@ -13,15 +13,15 @@ authors = [
 ]
 
 [project.scripts]
-pl0x = "pl0x.cli:main"
+pplox = "pplox.cli:main"
 
 [project.urls]
-Repository = "https://www.github.com/karlcaga/pl0x"
-Issues = "https://github.com/karlcaga/pl0x/issues"
+Repository = "https://www.github.com/karlcaga/pplox"
+Issues = "https://github.com/karlcaga/pplox/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pl0x"]
+include = ["pplox"]
 namespaces = false
 
 [tool.setuptools_scm]

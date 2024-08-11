@@ -1,10 +1,10 @@
-name: "pl0x CI"
+name: "pplox CI"
 
 on: [push]
 
 jobs:
   build-package:
-    name: Build pl0x package
+    name: Build pplox package
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/pl0x
+      url: https://pypi.org/p/pythonlox
     permissions:
       id-token: write
     steps:
@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/pl0x
+      url: https://test.pypi.org/p/pplox
     permissions:
       id-token: write
     steps:

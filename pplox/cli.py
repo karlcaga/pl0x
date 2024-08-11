@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import sys
 import argparse
-from pl0x.scanner import Scanner
+from .scanner import Scanner
 
 def main():
     parser = argparse.ArgumentParser(
-        prog='pl0x',
+        prog='pplox',
         description='A Lox interpreter',
     )
     parser.add_argument('filename')           
