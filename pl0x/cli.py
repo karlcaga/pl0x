@@ -1,26 +1,28 @@
 #!/usr/bin/env python
 import sys
+import argparse
 from pl0x.scanner import Scanner
 
 def main():
-    if len(sys.argv) < 3:
-        print("Usage: ./your_program.sh tokenize <filename>", file=sys.stderr)
-        exit(1)
+    parser = argparse.ArgumentParser(
+        prog='pl0x',
+        description='A Lox interpreter',
+    )
+    parser.add_argument('filename')           
+    parser.add_argument('-t', '--tokenize', action='store_true')
+    args = parser.parse_args()
 
-    command = sys.argv[1]
-    filename = sys.argv[2]
-
-    if command != "tokenize":
-        print(f"Unknown command: {command}", file=sys.stderr)
-        exit(1)
-
-    with open(filename) as file:
+    with open(args.filename) as file:
         file_contents = file.read()
-
-    scanner = Scanner(file_contents)
-    tokens = scanner.scan_tokens()
-    for token in tokens:
-        print(token.to_string())
+    
+    if args.tokenize:
+        scanner = Scanner(file_contents)
+        tokens = scanner.scan_tokens()
+        for token in tokens:
+            print(token.to_string())
+    else:
+        print("Interpreter not yet implemented", file=sys.stderr)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
