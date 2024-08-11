@@ -3,8 +3,29 @@ name: "pplox CI"
 on: [push]
 
 jobs:
+  test:
+    name: Test pplox
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pytest
+        run: >-
+          python3 -m
+          pip install
+          pytest
+          --user
+      - name: Run tests
+        run: >-
+          python3 -m pytest .
+
   build-package:
     name: Build pplox package
+    needs:
+      - test
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -116,4 +137,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
-
+          
+  

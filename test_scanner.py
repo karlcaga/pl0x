@@ -39,3 +39,7 @@ def test_empty_file():
     tokens = scanner.scan_tokens()
     assert len(tokens) == 1
     assert tokens[0].to_string() == "EOF  null"
+
+def test_fail():
+    assert False
+    
