@@ -25,3 +25,4 @@ include = ["pl0x"]
 namespaces = false
 
 [tool.setuptools_scm]
+local_scheme = "no-local-version"
