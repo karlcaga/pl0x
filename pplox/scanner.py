@@ -1,5 +1,6 @@
 from .token_type import TokenType
 from .token import Token
+from .error_reporter import ErrorReporter
 
 class Scanner:
     def __init__(self, source):
@@ -41,6 +42,8 @@ class Scanner:
                 self.add_token(TokenType.SLASH)
             case "-":
                 self.add_token(TokenType.MINUS)
+            case _:
+                ErrorReporter.error(self.line, "Unexpected character: " + c)
     def advance(self):
         c = self.source[self.current]
         self.current += 1

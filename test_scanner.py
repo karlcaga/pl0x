@@ -1,4 +1,5 @@
 from pplox.scanner import Scanner
+from pplox.error_reporter import ErrorReporter
 
 def test_parens():
     scanner = Scanner("(()")
@@ -39,4 +40,11 @@ def test_empty_file():
     tokens = scanner.scan_tokens()
     assert len(tokens) == 1
     assert tokens[0].to_string() == "EOF  null"
-    
+    assert not ErrorReporter.had_error
+
+def test_bad_token():
+    scanner = Scanner("#")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 1
+    assert tokens[0].to_string() == "EOF  null"
+    assert ErrorReporter.had_error

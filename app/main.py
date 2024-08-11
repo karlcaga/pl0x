@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 from pplox.scanner import Scanner
+from pplox.error_reporter import ErrorReporter
 
 def main():
     if len(sys.argv) < 3:
@@ -21,6 +22,9 @@ def main():
     tokens = scanner.scan_tokens()
     for token in tokens:
         print(token.to_string())
+
+    if ErrorReporter.had_error:
+        exit(65)
 
 if __name__ == "__main__":
     main()
