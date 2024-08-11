@@ -86,6 +86,13 @@ def test_whitespace():
     assert tokens[1].to_string() == "RIGHT_PAREN ) null"
     assert tokens[2].to_string() == "EOF  null"
 
+def test_string():
+    scanner = Scanner("\"foo baz\"")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 2
+    assert tokens[0].to_string() == "STRING \"foo baz\" foo baz"
+    assert tokens[1].to_string() == "EOF  null"
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()
@@ -93,9 +100,20 @@ def test_empty_file():
     assert tokens[0].to_string() == "EOF  null"
     assert not ErrorReporter.had_error
 
+# Place tests with errors here due to global had_error
+# Ensure you set had_error to False after each test
+def test_unterminated_string():
+    scanner = Scanner("\"bar")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 1
+    assert ErrorReporter.had_error
+    assert tokens[0].to_string() == "EOF  null"
+    ErrorReporter.had_error = False
+
 def test_bad_token():
     scanner = Scanner("#")
     tokens = scanner.scan_tokens()
     assert len(tokens) == 1
     assert tokens[0].to_string() == "EOF  null"
     assert ErrorReporter.had_error
+    ErrorReporter.had_error = False

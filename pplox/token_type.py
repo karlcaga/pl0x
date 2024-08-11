@@ -20,4 +20,5 @@ class TokenType(Enum):
     LESS_EQUAL = "LESS_EQUAL"
     GREATER = "GREATER"
     GREATER_EQUAL = "GREATER_EQUAL"
+    STRING = "STRING"
     EOF = "EOF"

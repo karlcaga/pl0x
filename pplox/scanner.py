@@ -54,6 +54,8 @@ class Scanner:
                         self.advance()
                 else:
                     self.add_token(TokenType.SLASH)
+            case "\"":
+                self.string()
             case " " | "\r" | "\t":
                 ... # Ignore whitespace
             case "\n":
@@ -78,3 +80,14 @@ class Scanner:
         if self.is_at_end():
             return '\0'
         return self.source[self.current]
+    def string(self):
+        while self.peek() != "\"" and not self.is_at_end():
+            if self.peek() == "\n":
+                self.line += 1
+            self.advance()
+        if self.is_at_end():
+            ErrorReporter.error(self.line, "Unterminated string.")
+            return
+        self.advance() # The closing ".
+        value = self.source[self.start + 1: self.current - 1]
+        self.add_token(TokenType.STRING, value)
