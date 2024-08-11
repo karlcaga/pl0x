@@ -63,6 +63,8 @@ class Scanner:
             case _:
                 if self.is_digit(c):
                     self.number()
+                elif self.is_alpha(c):
+                    self.identifier()
                 else:
                     ErrorReporter.error(self.line, "Unexpected character: " + c)
     def advance(self):
@@ -109,3 +111,11 @@ class Scanner:
         if self.current + 1 >= len(self.source):
             return "\0"
         return self.source[self.current + 1]
+    def identifier(self):
+        while self.is_alpha_numeric(self.peek()):
+            self.advance()
+        self.add_token(TokenType.IDENTIFIER)
+    def is_alpha(self, c):
+        return ("a" <= c <= "z") or ("A" <= c <= "Z") or c == "_"
+    def is_alpha_numeric(self, c):
+        return self.is_alpha(c) or self.is_digit(c)

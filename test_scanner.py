@@ -100,6 +100,14 @@ def test_numbers():
     assert tokens[0].to_string() == "NUMBER 1234.1234 1234.1234"
     assert tokens[1].to_string() == "EOF  null"
 
+def test_identifiers():
+    scanner = Scanner("foo bar _hello")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 4
+    assert tokens[0].to_string() == "IDENTIFIER foo null"
+    assert tokens[1].to_string() == "IDENTIFIER bar null"
+    assert tokens[2].to_string() == "IDENTIFIER _hello null"
+    assert tokens[3].to_string() == "EOF  null"
 
 def test_empty_file():
     scanner = Scanner("")
