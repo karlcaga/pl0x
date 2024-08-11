@@ -78,6 +78,13 @@ def test_division():
     assert tokens[0].to_string() == "SLASH / null"
     assert tokens[1].to_string() == "EOF  null"
 
+def test_whitespace():
+    scanner = Scanner("(\t\n )")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 3
+    assert tokens[0].to_string() == "LEFT_PAREN ( null"
+    assert tokens[1].to_string() == "RIGHT_PAREN ) null"
+    assert tokens[2].to_string() == "EOF  null"
 
 def test_empty_file():
     scanner = Scanner("")

@@ -54,6 +54,10 @@ class Scanner:
                         self.advance()
                 else:
                     self.add_token(TokenType.SLASH)
+            case " " | "\r" | "\t":
+                ... # Ignore whitespace
+            case "\n":
+                self.line += 1
             case _:
                 ErrorReporter.error(self.line, "Unexpected character: " + c)
     def advance(self):
