@@ -55,6 +55,16 @@ def test_bang_equals():
     assert tokens[2].to_string() == "EQUAL_EQUAL == null"
     assert tokens[3].to_string() == "EOF  null"
 
+def test_relational_operators():
+    scanner = Scanner("<<=>>=")
+    tokens = scanner.scan_tokens()
+    assert len(tokens) == 5
+    assert tokens[0].to_string() == "LESS < null"
+    assert tokens[1].to_string() == "LESS_EQUAL <= null"
+    assert tokens[2].to_string() == "GREATER > null"
+    assert tokens[3].to_string() == "GREATER_EQUAL >= null"
+    assert tokens[4].to_string() == "EOF  null"
+
 def test_empty_file():
     scanner = Scanner("")
     tokens = scanner.scan_tokens()
