@@ -2,16 +2,18 @@
 import sys
 from pplox.scanner import Scanner
 from pplox.error_reporter import ErrorReporter
+from pplox.parser import Parser
+from pplox.ast_printer import AstPrinter
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: ./your_program.sh tokenize <filename>", file=sys.stderr)
+        print("Usage: ./your_program.sh [tokenize, parse] <filename>", file=sys.stderr)
         exit(1)
 
     command = sys.argv[1]
     filename = sys.argv[2]
 
-    if command != "tokenize":
+    if command != "tokenize" and command != "parse":
         print(f"Unknown command: {command}", file=sys.stderr)
         exit(1)
 
@@ -20,8 +22,14 @@ def main():
 
     scanner = Scanner(file_contents)
     tokens = scanner.scan_tokens()
-    for token in tokens:
-        print(token.to_string())
+    if command == "tokenize":
+        for token in tokens:
+            print(token.to_string())
+    
+    if command == "parse":
+        parser = Parser(tokens)
+        expr = parser.parse()
+        print(AstPrinter().print(expr))
 
     if ErrorReporter.had_error:
         exit(65)

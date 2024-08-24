@@ -27,3 +27,7 @@ namespaces = false
 
 [tool.setuptools_scm]
 local_scheme = "no-local-version"
+
+# Disabling reportShadowedImports because we have a parser class that shadows the stdlib parser module which we don't use
+[tool.pyright]
+reportShadowedImports = false
