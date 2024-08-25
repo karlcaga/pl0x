@@ -26,9 +26,13 @@ class Parser:
             return Literal(True)
         if self.match(TokenType.NIL):
             return Literal(None)
-        if self.match(TokenType.NUMBER):
+        if self.match(TokenType.NUMBER, TokenType.STRING):
+            print(self.previous().literal)
             return Literal(self.previous().literal)
-        
+        else:
+            print(self.previous().literal)
+            print("did not match")
+
     def match(self, *types):
         for type in types:
             if self.check(type):
