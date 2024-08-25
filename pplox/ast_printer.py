@@ -11,4 +11,5 @@ class AstPrinter(Visitor):
             if expr.value:
                 return 'true'
             return 'false'
+        return str(expr.value)
         

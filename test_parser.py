@@ -10,5 +10,8 @@ def parse(source):
 
 def test_boolean_nil():
     assert parse('true').value == Literal(True).value
-    assert parse('false').value== Literal(False).value
+    assert parse('false').value == Literal(False).value
     assert parse('nil').value == Literal(None).value
+
+def test_number():
+    assert parse ("42.47").value == Literal(42.47).value

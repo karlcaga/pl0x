@@ -19,13 +19,15 @@ class Parser:
     #         right = self.comparison()
     #         expr = self.expr()
 
-    def primary(self):
+    def primary(self) -> Literal:
         if self.match(TokenType.FALSE):
             return Literal(False)
         if self.match(TokenType.TRUE):
             return Literal(True)
         if self.match(TokenType.NIL):
             return Literal(None)
+        if self.match(TokenType.NUMBER):
+            return Literal(self.previous().literal)
         
     def match(self, *types):
         for type in types:
