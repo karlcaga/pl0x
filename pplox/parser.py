@@ -1,5 +1,9 @@
 from .token_type import TokenType
-from .expr import Literal
+from .expr import Literal, Grouping
+from .error_reporter import ErrorReporter
+
+class ParseError(BaseException):
+    ...
 
 class Parser:
     def __init__(self, tokens):
@@ -28,6 +32,10 @@ class Parser:
             return Literal(None)
         if self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
+        if self.match(TokenType.LEFT_PAREN):
+            expr = self.primary()
+            self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
+            return Grouping(expr)
 
     def match(self, *types):
         for type in types:
@@ -54,3 +62,12 @@ class Parser:
     
     def previous(self):
         return self.tokens[self.current - 1]
+    
+    def consume(self, type, message):
+        if self.check(type):
+            return self.advance()
+        raise self.error(self.peek(), message)
+    
+    def error(self, token, message):
+        ErrorReporter.error(token, message)
+        return ParseError() 

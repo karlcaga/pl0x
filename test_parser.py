@@ -18,3 +18,6 @@ def test_number():
 
 def test_string():
     assert parse('"hello"').value == Literal("hello").value
+
+def test_paren():
+    assert parse ('("foo")').expression.value == Literal("foo").value
