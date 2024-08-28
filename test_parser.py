@@ -59,3 +59,9 @@ def test_greater_than():
     assert greater_than_compare.left.operator.lexeme == ">"
     assert greater_than_compare.left.left.value == Literal(1).value
     assert greater_than_compare.left.right.value == Literal(2).value
+
+def test_equality():
+    equality = parse('"1" == "foo"')
+    assert equality.operator.lexeme =="=="
+    assert equality.left.value == Literal("1").value
+    assert equality.right.value == Literal("foo").value

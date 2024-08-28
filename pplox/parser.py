@@ -11,17 +11,18 @@ class Parser:
         self.current = 0
 
     def parse(self):
-        return self.comparison()
+        return self.expression()
 
-    # def expression(self):
-    #     return self.primary()   
+    def expression(self):
+            return self.equality()   
 
-    # def equality(self):
-    #     expr = self.comparison()
-    #     while self.match(TokenType.BANG_EQUAL, TokenType.EQUAL_EQUAL):
-    #         operator = self.previous()
-    #         right = self.comparison()
-    #         expr = self.expr()
+    def equality(self):
+        expr = self.comparison()
+        while self.match(TokenType.BANG_EQUAL, TokenType.EQUAL_EQUAL):
+            operator = self.previous()
+            right = self.comparison()
+            expr = Binary(expr, operator, right)
+        return expr
 
     def comparison(self):
         expr = self.term()
@@ -30,7 +31,6 @@ class Parser:
             right = self.term()
             expr = Binary(expr, operator, right)
         return expr
-
 
     def term(self):
         expr = self.factor()
