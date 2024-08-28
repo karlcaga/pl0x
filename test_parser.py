@@ -41,3 +41,21 @@ def test_term():
     assert term.left.operator.lexeme == "+"
     assert term.left.left.value == Literal(1).value
     assert term.left.right.value == Literal(2).value 
+
+def test_less_than():
+    less_than_compare = parse("1 < 2 <= 3")
+
+    assert less_than_compare.operator.lexeme == "<="
+    assert less_than_compare.right.value == Literal(3).value
+    assert less_than_compare.left.operator.lexeme == "<"
+    assert less_than_compare.left.left.value == Literal(1).value
+    assert less_than_compare.left.right.value == Literal(2).value
+
+def test_greater_than():
+    greater_than_compare = parse("1 > 2 >= 3")
+
+    assert greater_than_compare.operator.lexeme == ">="
+    assert greater_than_compare.right.value == Literal(3).value
+    assert greater_than_compare.left.operator.lexeme == ">"
+    assert greater_than_compare.left.left.value == Literal(1).value
+    assert greater_than_compare.left.right.value == Literal(2).value
