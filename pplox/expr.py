@@ -6,6 +6,8 @@ class Visitor:
         ...
     def visit_unary(self,expr):
         ...
+    def visit_binary(self, expr):
+        ...
 
 class Expr:
     def accept(self, visitor):
@@ -31,3 +33,12 @@ class Unary(Expr):
 
     def accept(self, visitor):
         return visitor.visit_unary(self)
+
+class Binary(Expr):
+    def __init__(self, left, operator, right):
+        self.left = left
+        self.operator = operator
+        self.right = right
+
+    def accept(self, visitor):
+        return visitor.visit_binary(self)

@@ -26,3 +26,9 @@ def test_unary():
     result = parse("!true")
     assert result.operator.lexeme == "!"
     assert result.right.value == Literal(True).value
+
+def test_binary():
+    binary_test = parse("16 * 38")
+    assert binary_test.operator.lexeme == "*"
+    assert binary_test.left.value == Literal(16).value
+    assert binary_test.right.value == Literal(38).value

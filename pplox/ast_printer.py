@@ -19,6 +19,9 @@ class AstPrinter(Visitor):
     def visit_unary(self, expr):
         return self.parenthesize(expr.operator.lexeme, expr.right)
     
+    def visit_binary(self, expr):
+        return self.parenthesize(expr.operator.lexeme, expr.left, expr.right)
+    
     def parenthesize(self, name, *exprs):
         result = "("
         result += name

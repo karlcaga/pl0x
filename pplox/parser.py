@@ -1,5 +1,5 @@
 from .token_type import TokenType
-from .expr import Literal, Grouping, Unary
+from .expr import Literal, Grouping, Unary, Binary
 from .error_reporter import ErrorReporter
 
 class ParseError(BaseException):
@@ -11,7 +11,7 @@ class Parser:
         self.current = 0
 
     def parse(self):
-        return self.unary()
+        return self.factor()
 
     # def expression(self):
     #     return self.primary()   
@@ -23,13 +23,21 @@ class Parser:
     #         right = self.comparison()
     #         expr = self.expr()
 
+    def factor(self):
+        expr = self.unary()
+        while self.match(TokenType.SLASH, TokenType.STAR):
+            operator = self.previous()
+            right = self.unary()
+            expr = Binary(expr, operator, right)
+        return expr
+
     def unary(self):
         if self.match(TokenType.BANG, TokenType.MINUS):
             operator = self.previous()
             right = self.unary()
             return Unary(operator, right)
         return self.primary()
-    
+
     def primary(self) -> Literal:
         if self.match(TokenType.FALSE):
             return Literal(False)
@@ -40,7 +48,7 @@ class Parser:
         if self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
         if self.match(TokenType.LEFT_PAREN):
-            expr = self.unary()
+            expr = self.factor()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
             return Grouping(expr)
 
