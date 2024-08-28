@@ -16,6 +16,9 @@ class AstPrinter(Visitor):
     def visit_grouping(self, expr):
         return self.parenthesize("group", expr.expression)
     
+    def visit_unary(self, expr):
+        return self.parenthesize(expr.operator.lexeme, expr.right)
+    
     def parenthesize(self, name, *exprs):
         result = "("
         result += name
@@ -24,3 +27,4 @@ class AstPrinter(Visitor):
             result += expr.accept(self)
         result += ")"
         return result
+    

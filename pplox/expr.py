@@ -4,6 +4,8 @@ class Visitor:
         ...    
     def visit_grouping(self, expr):
         ...
+    def visit_unary(self,expr):
+        ...
 
 class Expr:
     def accept(self, visitor):
@@ -21,3 +23,11 @@ class Grouping(Expr):
         self.expression = expression
     def accept(self, visitor):
         return visitor.visit_grouping(self)
+    
+class Unary(Expr):
+    def __init__(self, operator, right):
+        self.operator = operator
+        self.right = right
+
+    def accept(self, visitor):
+        return visitor.visit_unary(self)

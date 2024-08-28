@@ -21,3 +21,8 @@ def test_string():
 
 def test_paren():
     assert parse ('("foo")').expression.value == Literal("foo").value
+
+def test_unary():
+    result = parse("!true")
+    assert result.operator.lexeme == "!"
+    assert result.right.value == Literal(True).value
