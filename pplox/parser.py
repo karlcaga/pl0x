@@ -65,7 +65,7 @@ class Parser:
         if self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
         if self.match(TokenType.LEFT_PAREN):
-            expr = self.comparison()
+            expr = self.expression()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
             return Grouping(expr)
 
