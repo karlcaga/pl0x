@@ -11,7 +11,7 @@ class Parser:
         self.current = 0
 
     def parse(self):
-        return self.factor()
+        return self.term()
 
     # def expression(self):
     #     return self.primary()   
@@ -22,6 +22,14 @@ class Parser:
     #         operator = self.previous()
     #         right = self.comparison()
     #         expr = self.expr()
+
+    def term(self):
+        expr = self.factor()
+        while self.match(TokenType.MINUS, TokenType.PLUS):
+            operator = self.previous()
+            right = self.factor()
+            expr = Binary(expr, operator, right)
+        return expr
 
     def factor(self):
         expr = self.unary()
@@ -48,7 +56,7 @@ class Parser:
         if self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
         if self.match(TokenType.LEFT_PAREN):
-            expr = self.factor()
+            expr = self.term()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
             return Grouping(expr)
 
