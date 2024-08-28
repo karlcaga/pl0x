@@ -29,8 +29,9 @@ def main():
     if command == "parse":
         parser = Parser(tokens)
         expr = parser.parse()
-        print(AstPrinter().print(expr))
-
+        if expr is not None:
+            print(AstPrinter().print(expr))
+                
     if ErrorReporter.had_error:
         exit(65)
 

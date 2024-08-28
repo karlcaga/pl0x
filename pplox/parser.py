@@ -11,7 +11,11 @@ class Parser:
         self.current = 0
 
     def parse(self):
-        return self.expression()
+        try:
+            return self.expression()
+        except ParseError:
+            return None
+        
 
     def expression(self):
             return self.equality()   
@@ -68,6 +72,7 @@ class Parser:
             expr = self.expression()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")
             return Grouping(expr)
+        raise self.error(self.peek(), "Expect expression.")
 
     def match(self, *types):
         for type in types:
