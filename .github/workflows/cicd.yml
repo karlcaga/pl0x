@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/pythonlox
+      url: https://pypi.org/p/pplox
     permissions:
       id-token: write
     steps:
