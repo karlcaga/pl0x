@@ -7,6 +7,11 @@ def to_string(val):
         if val:
             return 'true'
         return 'false'
+    if isinstance(val, float):
+        text = str(val)
+        if text.endswith(".0"):
+            text = text[:-2]
+        return text
     return str(val)
 
 class Interpreter(Visitor):
