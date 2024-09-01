@@ -72,5 +72,13 @@ def test_operand_type_error():
         evaluate("true / 2")
     with pytest.raises(InterpreterError):
         evaluate('("foo" * "bar")')
+
+def test_plus_type_error():
+    with pytest.raises(InterpreterError):
+        evaluate('"foo" + true')
+    with pytest.raises(InterpreterError):
+        evaluate('42 - true')
+    with pytest.raises(InterpreterError):
+        evaluate('true + false')
     
         

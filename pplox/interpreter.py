@@ -50,10 +50,10 @@ class Interpreter(Visitor):
                 return float(left) - float(right)
             case TokenType.PLUS:
                 if isinstance(left, float) and isinstance(right, float):
-                    self.check_number_operands(expr.operator, left, right)
                     return float(left) + float(right)
                 if isinstance(left, str) and isinstance(right, str):
                     return str(left) + str(right)
+                raise InterpreterError(expr.operator, "Operands must be two numbers or two strings.")
             case TokenType.GREATER:
                 self.check_number_operands(expr.operator, left, right)
                 return float(left) > float(right)
