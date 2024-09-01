@@ -64,4 +64,13 @@ def test_negation_error_handling():
         evaluate('-("foo" + "bar")')
     with pytest.raises(InterpreterError):
         evaluate('-true')
+
+def test_operand_type_error():
+    with pytest.raises(InterpreterError):
+        evaluate('"foo" * 42')
+    with pytest.raises(InterpreterError):
+        evaluate("true / 2")
+    with pytest.raises(InterpreterError):
+        evaluate('("foo" * "bar")')
+    
         

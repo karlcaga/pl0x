@@ -40,23 +40,31 @@ class Interpreter(Visitor):
         right = self.evaluate(expr.right)
         match expr.operator.type:
             case TokenType.SLASH:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) / float(right)
             case TokenType.STAR:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) * float(right)
             case TokenType.MINUS:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) - float(right)
             case TokenType.PLUS:
                 if isinstance(left, float) and isinstance(right, float):
+                    self.check_number_operands(expr.operator, left, right)
                     return float(left) + float(right)
                 if isinstance(left, str) and isinstance(right, str):
                     return str(left) + str(right)
             case TokenType.GREATER:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) > float(right)
             case TokenType.GREATER_EQUAL:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) >= float(right)
             case TokenType.LESS:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) < float(right)
             case TokenType.LESS_EQUAL:
+                self.check_number_operands(expr.operator, left, right)
                 return float(left) <= float(right)
             case TokenType.BANG_EQUAL:
                 return not self.is_equal(left, right)
@@ -67,6 +75,11 @@ class Interpreter(Visitor):
         if isinstance(operand, float):
             return
         raise InterpreterError(operator, "Operand must be a number.")
+
+    def check_number_operands(self, operator, left, right):
+        if isinstance(left, float) and isinstance(right, float):
+            return
+        raise InterpreterError(operator, "Operands must be numbers.")
 
     def is_equal(self, a, b):
         if a is None and b is None:
