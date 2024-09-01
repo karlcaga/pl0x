@@ -49,3 +49,8 @@ def test_greater_less():
     assert evaluate("124 > 123") == "true"
     assert evaluate("12837 < 1283") == "false"
     assert evaluate("321 <= 321") == "true"
+
+def test_equality():
+    assert evaluate('"foo" != "bar"') == "true"
+    assert evaluate('"hello" == "world"') == "false"
+    assert evaluate('"foo" == "foo"') == "true"

@@ -56,7 +56,17 @@ class Interpreter(Visitor):
                 return float(left) < float(right)
             case TokenType.LESS_EQUAL:
                 return float(left) <= float(right)
+            case TokenType.BANG_EQUAL:
+                return not self.is_equal(left, right)
+            case TokenType.EQUAL_EQUAL:
+                return self.is_equal(left, right)
 
+    def is_equal(self, a, b):
+        if a is None and b is None:
+            return True
+        if a is None:
+            return False
+        return a == b
     
     def is_truthy(self, obj):
         if obj is None:
