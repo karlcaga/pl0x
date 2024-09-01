@@ -21,3 +21,6 @@ class Interpreter(Visitor):
     def visit_literal(self, expr):
         return expr.value   
     
+    def visit_grouping(self, expr):
+        return self.evaluate(expr.expression)
+    

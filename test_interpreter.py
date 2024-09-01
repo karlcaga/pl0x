@@ -21,3 +21,8 @@ def test_numbers():
     assert evaluate("9.480") == "9.48"
     assert evaluate("2.30") == "2.3"
 
+def test_grouping():
+    assert evaluate('("hello world!")') == 'hello world!'
+    assert evaluate("(true)") == "true"
+    assert evaluate("((false))") == "false"
+    assert evaluate("(123.40)") == "123.4"
