@@ -43,3 +43,9 @@ def test_minus_plus():
 def test_concat():
     assert evaluate('"Hello" + " world"') == "Hello world"
     assert evaluate('"42" + "42"') == "4242"
+
+def test_greater_less():
+    assert evaluate("123 >= 123") == "true"
+    assert evaluate("124 > 123") == "true"
+    assert evaluate("12837 < 1283") == "false"
+    assert evaluate("321 <= 321") == "true"

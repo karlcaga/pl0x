@@ -48,6 +48,15 @@ class Interpreter(Visitor):
                     return float(left) + float(right)
                 if isinstance(left, str) and isinstance(right, str):
                     return str(left) + str(right)
+            case TokenType.GREATER:
+                return float(left) > float(right)
+            case TokenType.GREATER_EQUAL:
+                return float(left) >= float(right)
+            case TokenType.LESS:
+                return float(left) < float(right)
+            case TokenType.LESS_EQUAL:
+                return float(left) <= float(right)
+
     
     def is_truthy(self, obj):
         if obj is None:
