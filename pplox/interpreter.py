@@ -1,4 +1,5 @@
 from .expr import Visitor 
+from .token_type import TokenType
 
 def to_string(val):
     if val is None:
@@ -15,7 +16,7 @@ def to_string(val):
     return str(val)
 
 class Interpreter(Visitor):
-    def evaluate(self, expr):
+    def evaluate(self, expr): 
         return expr.accept(self)
     
     def visit_literal(self, expr):
@@ -24,3 +25,17 @@ class Interpreter(Visitor):
     def visit_grouping(self, expr):
         return self.evaluate(expr.expression)
     
+    def visit_unary(self, expr):
+        right = self.evaluate(expr.right)
+        match expr.operator.type:
+            case TokenType.MINUS:
+                return -(float(right))
+            case TokenType.BANG:
+                return not self.is_truthy(right)
+    
+    def is_truthy(self, obj):
+        if obj is None:
+            return False
+        if isinstance(obj, bool):
+            return bool(obj)
+        return True

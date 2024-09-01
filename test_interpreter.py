@@ -26,3 +26,9 @@ def test_grouping():
     assert evaluate("(true)") == "true"
     assert evaluate("((false))") == "false"
     assert evaluate("(123.40)") == "123.4"
+
+def test_truthy():
+    assert evaluate("-73") == "-73"
+    assert evaluate("!true") == "false"
+    assert evaluate("!10.40") == "false"
+    assert evaluate("!((false))") == "true"
