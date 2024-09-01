@@ -39,3 +39,7 @@ def test_multiplication_division():
 
 def test_minus_plus():
     assert evaluate("20 + 74 - (-(14 - 33))") == "75"
+
+def test_concat():
+    assert evaluate('"Hello" + " world"') == "Hello world"
+    assert evaluate('"42" + "42"') == "4242"
