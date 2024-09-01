@@ -32,3 +32,7 @@ def test_truthy():
     assert evaluate("!true") == "false"
     assert evaluate("!10.40") == "false"
     assert evaluate("!((false))") == "true"
+
+def test_multiplication_division():
+    assert evaluate("8 * 8") == "64"
+    assert evaluate("80 / 10") == "8" 

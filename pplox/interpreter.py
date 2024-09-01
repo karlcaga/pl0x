@@ -32,6 +32,15 @@ class Interpreter(Visitor):
                 return -(float(right))
             case TokenType.BANG:
                 return not self.is_truthy(right)
+
+    def visit_binary(self, expr):
+        left = self.evaluate(expr.left)
+        right = self.evaluate(expr.right)
+        match expr.operator.type:
+            case TokenType.SLASH:
+                return float(left) / float(right)
+            case TokenType.STAR:
+                return float(left) * float(right)
     
     def is_truthy(self, obj):
         if obj is None:
