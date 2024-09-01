@@ -1,6 +1,8 @@
 from pplox.parser import Parser 
 from pplox.scanner import Scanner
 from pplox.interpreter import Interpreter, to_string
+from pplox.interpreter_error import InterpreterError
+import pytest
 
 def evaluate(source):
     scanner = Scanner(source)
@@ -54,3 +56,12 @@ def test_equality():
     assert evaluate('"foo" != "bar"') == "true"
     assert evaluate('"hello" == "world"') == "false"
     assert evaluate('"foo" == "foo"') == "true"
+
+def test_negation_error_handling():
+    with pytest.raises(InterpreterError):
+        evaluate('-"foo"')
+    with pytest.raises(InterpreterError):
+        evaluate('-("foo" + "bar")')
+    with pytest.raises(InterpreterError):
+        evaluate('-true')
+        

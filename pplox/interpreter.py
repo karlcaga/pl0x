@@ -1,5 +1,6 @@
 from .expr import Visitor 
 from .token_type import TokenType
+from .interpreter_error import InterpreterError
 
 def to_string(val):
     if val is None:
@@ -29,6 +30,7 @@ class Interpreter(Visitor):
         right = self.evaluate(expr.right)
         match expr.operator.type:
             case TokenType.MINUS:
+                self.check_number_operand(expr.operator, right)
                 return -(float(right))
             case TokenType.BANG:
                 return not self.is_truthy(right)
@@ -60,6 +62,11 @@ class Interpreter(Visitor):
                 return not self.is_equal(left, right)
             case TokenType.EQUAL_EQUAL:
                 return self.is_equal(left, right)
+
+    def check_number_operand(self, operator, operand):
+        if isinstance(operand, float):
+            return
+        raise InterpreterError(operator, "Operand must be a number.")
 
     def is_equal(self, a, b):
         if a is None and b is None:

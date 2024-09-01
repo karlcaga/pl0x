@@ -5,6 +5,7 @@ from pplox.error_reporter import ErrorReporter
 from pplox.parser import Parser
 from pplox.ast_printer import AstPrinter
 from pplox.interpreter import Interpreter, to_string
+from pplox.interpreter_error import InterpreterError
 
 def main():
     if len(sys.argv) < 3:
@@ -37,7 +38,11 @@ def main():
         parser = Parser(tokens)
         expr = parser.parse()
         if expr is not None:
-            print(to_string(Interpreter().evaluate(expr)))
+            try:
+                print(to_string(Interpreter().evaluate(expr)))
+            except InterpreterError as e:
+                print(e, file = sys.stderr)
+                exit(70)
 
     if ErrorReporter.had_error:
         exit(65)
