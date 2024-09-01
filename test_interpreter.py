@@ -80,5 +80,11 @@ def test_plus_type_error():
         evaluate('42 - true')
     with pytest.raises(InterpreterError):
         evaluate('true + false')
-    
-        
+
+def test_relational_type_error():
+    with pytest.raises(InterpreterError):
+        evaluate('"foo" < false')
+    with pytest.raises(InterpreterError):
+        evaluate('("foo" + "bar") < 42')
+    with pytest.raises(InterpreterError):
+        evaluate('false > true')
