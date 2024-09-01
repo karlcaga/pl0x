@@ -41,6 +41,10 @@ class Interpreter(Visitor):
                 return float(left) / float(right)
             case TokenType.STAR:
                 return float(left) * float(right)
+            case TokenType.MINUS:
+                return float(left) - float(right)
+            case TokenType.PLUS:
+                return float(left) + float(right)
     
     def is_truthy(self, obj):
         if obj is None:

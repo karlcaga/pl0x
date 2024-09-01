@@ -36,3 +36,6 @@ def test_truthy():
 def test_multiplication_division():
     assert evaluate("8 * 8") == "64"
     assert evaluate("80 / 10") == "8" 
+
+def test_minus_plus():
+    assert evaluate("20 + 74 - (-(14 - 33))") == "75"
