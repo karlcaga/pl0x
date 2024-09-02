@@ -16,6 +16,11 @@ def test_print(capsys):
     evaluate('print "hello world";', capsys) == "hello world" 
 
 def evaluate_as_print_and_capture_output(source, capsys):
+    """
+    The tests below were written when parser.parse handled expressions and returned the evaluated value.
+    When parser.parse was changed to handle expressions, the tests broke.
+    To handle backwards compatibility, we turn each expression into a print statement and returned the captured value.
+    """
     scanner = Scanner("print " + source + ";")
     tokens = scanner.scan_tokens()
     parser = Parser(tokens)
