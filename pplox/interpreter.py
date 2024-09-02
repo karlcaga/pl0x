@@ -1,6 +1,8 @@
 from .expr import Visitor 
 from .token_type import TokenType
 from .interpreter_error import InterpreterError
+from . import stmt
+from .error_reporter import ErrorReporter
 
 def to_string(val):
     if val is None:
@@ -16,10 +18,29 @@ def to_string(val):
         return text
     return str(val)
 
-class Interpreter(Visitor):
+class Interpreter(Visitor, stmt.Visitor):
+    def interpret(self, statements):
+        try:
+            for statement in statements:
+                self.execute(statement)
+        except RuntimeError as e:
+            ErrorReporter.runtime_error(e)
+    
     def evaluate(self, expr): 
         return expr.accept(self)
     
+    def execute(self, stmt):
+        stmt.accept(self)
+    
+    def visit_print(self, stmt):
+        value = self.evaluate(stmt.expression)
+        print(to_string(value))
+        return None
+    
+    def visit_expression(self, stmt):
+        self.evaluate(stmt.expression)
+        return None
+
     def visit_literal(self, expr):
         return expr.value   
     

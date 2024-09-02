@@ -3,10 +3,10 @@ from pplox.scanner import Scanner
 from pplox.expr import Literal
 
 def parse(source):
-    scanner = Scanner(source)
+    scanner = Scanner(source + ";")
     tokens = scanner.scan_tokens()
     parser = Parser(tokens)
-    return parser.parse()
+    return parser.parse()[0].expression
 
 def test_boolean_nil():
     assert parse('true').value == Literal(True).value

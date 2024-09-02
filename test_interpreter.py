@@ -4,87 +4,100 @@ from pplox.interpreter import Interpreter, to_string
 from pplox.interpreter_error import InterpreterError
 import pytest
 
-def evaluate(source):
+def evaluate(source, capsys):
     scanner = Scanner(source)
     tokens = scanner.scan_tokens()
     parser = Parser(tokens)
-    return to_string(Interpreter().evaluate(parser.parse()))
+    Interpreter().interpret(parser.parse())
+    captured = capsys.readouterr()
+    return captured.out[:-1]
 
-def test_true_false_nil():
-    assert evaluate('true') == "true"
-    assert evaluate('false') == "false"
-    assert evaluate('nil') == "nil"
+def test_print(capsys):
+    evaluate('print "hello world";', capsys) == "hello world" 
 
-def test_string():
-    assert evaluate('"hello world"') == "hello world"
+def evaluate_as_print_and_capture_output(source, capsys):
+    scanner = Scanner("print " + source + ";")
+    tokens = scanner.scan_tokens()
+    parser = Parser(tokens)
+    Interpreter().interpret(parser.parse())
+    captured = capsys.readouterr()
+    return captured.out[:-1]
 
-def test_numbers():
-    assert evaluate("10") == "10"
-    assert evaluate("9.480") == "9.48"
-    assert evaluate("2.30") == "2.3"
+def test_true_false_nil(capsys):
+    assert evaluate_as_print_and_capture_output('true', capsys) == "true"
+    assert evaluate_as_print_and_capture_output('false', capsys) == "false"
+    assert evaluate_as_print_and_capture_output('nil', capsys) == "nil"
 
-def test_grouping():
-    assert evaluate('("hello world!")') == 'hello world!'
-    assert evaluate("(true)") == "true"
-    assert evaluate("((false))") == "false"
-    assert evaluate("(123.40)") == "123.4"
+def test_string(capsys):
+    assert evaluate_as_print_and_capture_output('"hello world"', capsys) == "hello world"
 
-def test_truthy():
-    assert evaluate("-73") == "-73"
-    assert evaluate("!true") == "false"
-    assert evaluate("!10.40") == "false"
-    assert evaluate("!((false))") == "true"
+def test_numbers(capsys):
+    assert evaluate_as_print_and_capture_output("10", capsys) == "10"
+    assert evaluate_as_print_and_capture_output("9.480", capsys) == "9.48"
+    assert evaluate_as_print_and_capture_output("2.30", capsys) == "2.3"
 
-def test_multiplication_division():
-    assert evaluate("8 * 8") == "64"
-    assert evaluate("80 / 10") == "8" 
+def test_grouping(capsys):
+    assert evaluate_as_print_and_capture_output('("hello world!")', capsys) == 'hello world!'
+    assert evaluate_as_print_and_capture_output("(true)", capsys) == "true"
+    assert evaluate_as_print_and_capture_output("((false))", capsys) == "false"
+    assert evaluate_as_print_and_capture_output("(123.40)", capsys) == "123.4"
 
-def test_minus_plus():
-    assert evaluate("20 + 74 - (-(14 - 33))") == "75"
+def test_truthy(capsys):
+    assert evaluate_as_print_and_capture_output("-73", capsys) == "-73"
+    assert evaluate_as_print_and_capture_output("!true", capsys) == "false"
+    assert evaluate_as_print_and_capture_output("!10.40", capsys) == "false"
+    assert evaluate_as_print_and_capture_output("!((false))", capsys) == "true"
 
-def test_concat():
-    assert evaluate('"Hello" + " world"') == "Hello world"
-    assert evaluate('"42" + "42"') == "4242"
+def test_multiplication_division(capsys):
+    assert evaluate_as_print_and_capture_output("8 * 8", capsys) == "64"
+    assert evaluate_as_print_and_capture_output("80 / 10", capsys) == "8" 
 
-def test_greater_less():
-    assert evaluate("123 >= 123") == "true"
-    assert evaluate("124 > 123") == "true"
-    assert evaluate("12837 < 1283") == "false"
-    assert evaluate("321 <= 321") == "true"
+def test_minus_plus(capsys):
+    assert evaluate_as_print_and_capture_output("20 + 74 - (-(14 - 33))", capsys) == "75"
 
-def test_equality():
-    assert evaluate('"foo" != "bar"') == "true"
-    assert evaluate('"hello" == "world"') == "false"
-    assert evaluate('"foo" == "foo"') == "true"
+def test_concat(capsys):
+    assert evaluate_as_print_and_capture_output('"Hello" + " world"', capsys) == "Hello world"
+    assert evaluate_as_print_and_capture_output('"42" + "42"', capsys) == "4242"
 
-def test_negation_error_handling():
+def test_greater_less(capsys):
+    assert evaluate_as_print_and_capture_output("123 >= 123", capsys) == "true"
+    assert evaluate_as_print_and_capture_output("124 > 123", capsys) == "true"
+    assert evaluate_as_print_and_capture_output("12837 < 1283", capsys) == "false"
+    assert evaluate_as_print_and_capture_output("321 <= 321", capsys) == "true"
+
+def test_equality(capsys):
+    assert evaluate_as_print_and_capture_output('"foo" != "bar"', capsys) == "true"
+    assert evaluate_as_print_and_capture_output('"hello" == "world"', capsys) == "false"
+    assert evaluate_as_print_and_capture_output('"foo" == "foo"', capsys) == "true"
+
+def test_negation_error_handling(capsys):
     with pytest.raises(InterpreterError):
-        evaluate('-"foo"')
+        evaluate_as_print_and_capture_output('-"foo"', capsys)
     with pytest.raises(InterpreterError):
-        evaluate('-("foo" + "bar")')
+        evaluate_as_print_and_capture_output('-("foo" + "bar")', capsys)
     with pytest.raises(InterpreterError):
-        evaluate('-true')
+        evaluate_as_print_and_capture_output('-true', capsys)
 
-def test_operand_type_error():
+def test_operand_type_error(capsys):
     with pytest.raises(InterpreterError):
-        evaluate('"foo" * 42')
+        evaluate_as_print_and_capture_output('"foo" * 42', capsys)
     with pytest.raises(InterpreterError):
-        evaluate("true / 2")
+        evaluate_as_print_and_capture_output("true / 2", capsys)
     with pytest.raises(InterpreterError):
-        evaluate('("foo" * "bar")')
+        evaluate_as_print_and_capture_output('("foo" * "bar")', capsys)
 
-def test_plus_type_error():
+def test_plus_type_error(capsys):
     with pytest.raises(InterpreterError):
-        evaluate('"foo" + true')
+        evaluate_as_print_and_capture_output('"foo" + true', capsys)
     with pytest.raises(InterpreterError):
-        evaluate('42 - true')
+        evaluate_as_print_and_capture_output('42 - true', capsys)
     with pytest.raises(InterpreterError):
-        evaluate('true + false')
+        evaluate_as_print_and_capture_output('true + false', capsys)
 
-def test_relational_type_error():
+def test_relational_type_error(capsys):
     with pytest.raises(InterpreterError):
-        evaluate('"foo" < false')
+        evaluate_as_print_and_capture_output('"foo" < false', capsys)
     with pytest.raises(InterpreterError):
-        evaluate('("foo" + "bar") < 42')
+        evaluate_as_print_and_capture_output('("foo" + "bar") < 42', capsys)
     with pytest.raises(InterpreterError):
-        evaluate('false > true')
+        evaluate_as_print_and_capture_output('false > true', capsys)
