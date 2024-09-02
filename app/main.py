@@ -75,6 +75,9 @@ def main():
 
     if ErrorReporter.had_error:
         exit(65)
+        
+    if ErrorReporter.had_runtime_error:
+        exit(70)
 
 if __name__ == "__main__":
     main()
