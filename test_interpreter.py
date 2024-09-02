@@ -4,7 +4,7 @@ from pplox.interpreter import Interpreter, to_string
 from pplox.interpreter_error import InterpreterError
 import pytest
 
-def evaluate(source, capsys):
+def run(source, capsys):
     scanner = Scanner(source)
     tokens = scanner.scan_tokens()
     parser = Parser(tokens)
@@ -13,10 +13,19 @@ def evaluate(source, capsys):
     return captured.out[:-1]
 
 def test_print(capsys):
-    evaluate('print "hello world";', capsys) == "hello world" 
+    run('print "hello world";', capsys) == "hello world" 
 
 def test_variable_declaration(capsys):
-    evaluate('var a = "foo";\nprint a;', capsys) == "foo"
+    run('var a = "foo";\nprint a;', capsys) == "foo"
+
+def test_variable_redeclaration(capsys):
+    run('var a = 1; \nvar a = 2; \nprint a;', capsys) == "2"
+
+def test_assignment(capsys):
+    run('var a = 1; \na = 2; \nprint a;', capsys) == "2"
+
+def test_initialization(capsys):
+    run('var a; \nvarb = 2;\nvar a = b = 1;\n print a;', capsys) == "1"
 
 def evaluate_as_print_and_capture_output(source, capsys):
     """

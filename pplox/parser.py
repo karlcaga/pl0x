@@ -1,7 +1,7 @@
 from .token_type import TokenType
-from .expr import Literal, Grouping, Unary, Binary, Variable
+from .expr import Literal, Grouping, Unary, Binary, VariableExpr, Assign
 from .error_reporter import ErrorReporter
-from .stmt import Print, Expression, Var   
+from .stmt import Print, Expression, VarStmt   
 
 class ParseError(BaseException):
     ...
@@ -44,15 +44,26 @@ class Parser:
         if self.match(TokenType.EQUAL):
             initializer = self.expression()
         self.consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.")
-        return Var(name, initializer)
+        return VarStmt(name, initializer)
 
     def expression_statement(self):
         expr = self.expression()
         self.consume(TokenType.SEMICOLON, "Expect ';' after expression.")
         return Expression(expr)
+    
+    def assignment(self):
+        expr = self.equality()
+        if self.match(TokenType.EQUAL):
+            equals = self.previous()
+            value = self.assignment()
+            if isinstance(expr, VariableExpr):
+                name = expr.name
+                return Assign(name, value)
+            self.error(equals, "Invalid assignment target.")
+        return expr 
 
     def expression(self):
-            return self.equality()   
+            return self.assignment()
 
     def equality(self):
         expr = self.comparison()
@@ -103,7 +114,7 @@ class Parser:
         if self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
         if self.match(TokenType.IDENTIFIER):
-            return Variable(self.previous())
+            return VariableExpr(self.previous())
         if self.match(TokenType.LEFT_PAREN):
             expr = self.expression()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.")

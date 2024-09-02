@@ -8,19 +8,27 @@ class Visitor:
         ...
     def visit_binary(self, expr):
         ...
-    def visit_variable(self, expr):
+    def visit_variable_expr(self, expr):
         ...
 
 class Expr:
     def accept(self, visitor):
         ...
     
-class Variable(Expr):
+class Assign(Expr):
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def accept(self, visitor):
+        return visitor.visit_assign(self)
+
+class VariableExpr(Expr):
     def __init__(self, name):
         self.name = name
 
     def accept(self, visitor):
-        return visitor.visit_variable(self)
+        return visitor.visit_variable_expr(self)
 
 class Literal(Expr):
     def __init__(self, value):

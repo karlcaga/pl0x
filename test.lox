@@ -1,3 +1,8 @@
-print "the expression below is invalid";
-41 + "baz";
-print "this should not be printed";
+var hello = 65;
+var baz;
+var quz;
+
+hello = baz = quz = hello * 2;
+print hello;
+print baz;
+print baz;

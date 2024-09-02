@@ -41,12 +41,17 @@ class Interpreter(Visitor, stmt.Visitor):
         print(to_string(value))
         return None
     
-    def visit_var(self, stmt):
+    def visit_var_stmt(self, stmt):
         value = None
         if stmt.initializer is not None:
             value = self.evaluate(stmt.initializer)
         self.environment.define(stmt.name.lexeme, value)
         return None
+    
+    def visit_assign(self, expr):
+        value = self.evaluate(expr.value)
+        self.environment.assign(expr.name, value)
+        return value
     
     def visit_expression(self, stmt):
         self.evaluate(stmt.expression)
@@ -67,7 +72,7 @@ class Interpreter(Visitor, stmt.Visitor):
             case TokenType.BANG:
                 return not self.is_truthy(right)
 
-    def visit_variable(self, expr):
+    def visit_variable_expr(self, expr):
         return self.environment.get(expr.name)
 
     def visit_binary(self, expr):
