@@ -33,10 +33,12 @@ def main():
         tokens = scanner.scan_tokens()
         try:
             parser = Parser(tokens)
-            expr = parser.parse()[0].expression
+            expr = parser.parse()[0].expression 
             if expr is not None:
                 print(AstPrinter().print(expr))
         except ParseError:
+            exit(65)
+        except IndexError:
             exit(65)
 
     if command == "evaluate":
@@ -52,6 +54,8 @@ def main():
                     print(e, file = sys.stderr)
                     exit(70)
         except ParseError:
+            exit(65)
+        except IndexError:
             exit(65)
             
     if command == "run":
