@@ -26,8 +26,9 @@ class Interpreter(Visitor, stmt.Visitor):
     def interpret(self, statements):
         try:
             for statement in statements:
+                print(statement)
                 self.execute(statement)
-        except RuntimeError as e:
+        except InterpreterError as e:
             ErrorReporter.runtime_error(e)
     
     def evaluate(self, expr): 

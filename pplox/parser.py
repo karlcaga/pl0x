@@ -14,7 +14,9 @@ class Parser:
     def parse(self):
         statements = []
         while not self.is_at_end():
-            statements.append(self.declaration())
+            declaration = self.declaration()
+            if declaration is not None:
+                statements.append(declaration)
         return statements 
     
     def declaration(self):
@@ -142,3 +144,13 @@ class Parser:
     def error(self, token, message):
         ErrorReporter.error(token, message)
         return ParseError() 
+    
+    def synchronize(self):
+        self.advance()
+        while not self.is_at_end():
+            if self.previous().type == TokenType.SEMICOLON:
+                return
+            match self.peek().type:
+                case TokenType.CLASS | TokenType.FUN | TokenType.VAR | TokenType.FOR | TokenType.IF | TokenType.WHILE | TokenType.PRINT | TokenType.RETURN:
+                    return
+            self.advance()
