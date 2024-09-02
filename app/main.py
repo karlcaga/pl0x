@@ -2,7 +2,7 @@
 import sys
 from pplox.scanner import Scanner
 from pplox.error_reporter import ErrorReporter
-from pplox.parser import Parser
+from pplox.parser import Parser, ParseError
 from pplox.ast_printer import AstPrinter
 from pplox.interpreter import Interpreter, to_string
 from pplox.interpreter_error import InterpreterError
@@ -51,14 +51,17 @@ def main():
     if command == "run":
         scanner = Scanner(file_contents)
         tokens = scanner.scan_tokens()
-        parser = Parser(tokens)
-        statements = parser.parse()
-        if statements:
-            try:
-                Interpreter().interpret(statements)
-            except InterpreterError as e:
-                print(e, file = sys.stderr)
-                exit(70)
+        try:
+            parser = Parser(tokens)
+            statements = parser.parse()
+            if statements:
+                try:
+                    Interpreter().interpret(statements)
+                except InterpreterError as e:
+                    print(e, file = sys.stderr)
+                    exit(70)
+        except ParseError:
+            exit(65)
 
     if ErrorReporter.had_error:
         exit(65)
