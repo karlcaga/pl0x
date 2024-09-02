@@ -10,7 +10,7 @@ class ErrorReporter:
     
     @classmethod
     def runtime_error(cls, error):
-        print(str(error) + "\n[line " + str(error.token.line) + "]")
+        print(str(error) + "\n[line " + str(error.token.line) + "]", file=sys.stderr)
         cls.had_runtime_error = True
 
     @classmethod
