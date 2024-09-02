@@ -15,6 +15,9 @@ def evaluate(source, capsys):
 def test_print(capsys):
     evaluate('print "hello world";', capsys) == "hello world" 
 
+def test_variable_declaration(capsys):
+    evaluate('var a = "foo";\nprint a;', capsys) == "foo"
+
 def evaluate_as_print_and_capture_output(source, capsys):
     """
     The tests below were written when parser.parse handled expressions and returned the evaluated value.

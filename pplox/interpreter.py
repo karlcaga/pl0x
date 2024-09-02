@@ -3,6 +3,7 @@ from .token_type import TokenType
 from .interpreter_error import InterpreterError
 from . import stmt
 from .error_reporter import ErrorReporter
+from .environment import Environment
 
 def to_string(val):
     if val is None:
@@ -19,6 +20,9 @@ def to_string(val):
     return str(val)
 
 class Interpreter(Visitor, stmt.Visitor):
+    def __init__(self):
+        self.environment = Environment()
+                
     def interpret(self, statements):
         try:
             for statement in statements:
@@ -35,6 +39,13 @@ class Interpreter(Visitor, stmt.Visitor):
     def visit_print(self, stmt):
         value = self.evaluate(stmt.expression)
         print(to_string(value))
+        return None
+    
+    def visit_var(self, stmt):
+        value = None
+        if stmt.initializer is not None:
+            value = self.evaluate(stmt.initializer)
+        self.environment.define(stmt.name.lexeme, value)
         return None
     
     def visit_expression(self, stmt):
@@ -55,6 +66,9 @@ class Interpreter(Visitor, stmt.Visitor):
                 return -(float(right))
             case TokenType.BANG:
                 return not self.is_truthy(right)
+
+    def visit_variable(self, expr):
+        return self.environment.get(expr.name)
 
     def visit_binary(self, expr):
         left = self.evaluate(expr.left)
