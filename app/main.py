@@ -31,23 +31,29 @@ def main():
     if command == "parse":
         scanner = Scanner(file_contents + ";")
         tokens = scanner.scan_tokens()
-        parser = Parser(tokens)
-        expr = parser.parse()[0].expression
-        if expr is not None:
-            print(AstPrinter().print(expr))
+        try:
+            parser = Parser(tokens)
+            expr = parser.parse()[0].expression
+            if expr is not None:
+                print(AstPrinter().print(expr))
+        except ParseError:
+            exit(65)
 
     if command == "evaluate":
         scanner = Scanner(file_contents + ";")
         tokens = scanner.scan_tokens()
-        parser = Parser(tokens)
-        expr = parser.parse()[0].expression
-        if expr is not None:
-            try:
-                print(to_string(Interpreter().evaluate(expr)))
-            except InterpreterError as e:
-                print(e, file = sys.stderr)
-                exit(70)
-
+        try:
+            parser = Parser(tokens)
+            expr = parser.parse()[0].expression
+            if expr is not None:
+                try:
+                    print(to_string(Interpreter().evaluate(expr)))
+                except InterpreterError as e:
+                    print(e, file = sys.stderr)
+                    exit(70)
+        except ParseError:
+            exit(65)
+            
     if command == "run":
         scanner = Scanner(file_contents)
         tokens = scanner.scan_tokens()
