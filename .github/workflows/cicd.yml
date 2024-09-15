@@ -2,7 +2,7 @@ name: "pplox CI"
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     tags:
       - "*.*.*"
 
