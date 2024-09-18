@@ -6,19 +6,4 @@ on:
 jobs:
   test:
     name: Pre-merge tests 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install pytest
-        run: >-
-          python3 -m
-          pip install
-          pytest
-          --user
-      - name: Run tests
-        run: >-
-          python3 -m pytest .
+    uses: ./.github/workflows/pytest.yml
