@@ -12,17 +12,20 @@ Currently expression evaluation is under development.
 
 ## Project Layout
 
-    .github/workflows/cicd.yml    # The CI/CD configuration pipeline.
+    .github/workflows/            
+        cicd.yml                  # The CI/CD configuration pipeline
+        pr.yml                    # The pre-merge checks that run on pull requests that must pass before merging
+        ...                       # The reusable workflows 
     pplox/
         cli.py                    # The command-line interface
         ...                       # The interpreter implementation
-    test_scanner.py               # Test for the scanner.
+    test_scanner.py               # Test for the scanner
     docs/                         # Project documentation
 
 ## Build Pipeline
 
 We have build pipelines set up to publish every push to [TestPyPI](https://test.pypi.org/project/pplox/) and every tag to [PyPI](https://pypi.org/project/pplox/).
-Every release is tested using our test suite.
+Every release and pull request is run through our test suite which is required to pass.
 
 ## Developing
 
