@@ -1,4 +1,8 @@
-Interpreter for the Lox programming language
+Interpreter for the Lox programming language.
+
+This project was developed as our solution to the CodeCrafters Build-Your-Own-Interpreter challenge with a focus on the developer experience.
+With this in mind, `pplox` was developed as a pure Python port of [`jlox`](https://github.com/munificent/craftinginterpreters/tree/master/java/com/craftinginterpreters) written in Java from Robert Nystrom's [Crafting Interpreters](https://craftinginterpreters.com/). 
+See the [documentation](https://pplox.readthedocs.io/en/latest/) for more details on the GitHub Actions workflows we used to develop this interpreter.
 
 # Getting Started
 
@@ -13,8 +17,6 @@ print "Hello world"
 Tokenize the file with `pplox --tokenize hello_world.lox`.
 
 Parse the file with `pplox --parse hello_world.lox`.
-
-See the [documentation](https://pplox.readthedocs.io/en/latest/) for more details.
 
 # Library Usage
 pplox can also be used as a library in your own Python projects.
