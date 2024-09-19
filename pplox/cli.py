@@ -2,8 +2,10 @@
 import sys
 import argparse
 from .scanner import Scanner
-from .parser import Parser
+from .parser import Parser, ParseError
 from .ast_printer import AstPrinter
+from .interpreter import Interpreter
+from .interpreter_error import InterpreterError
 
 def main():
     parser = argparse.ArgumentParser(
@@ -27,8 +29,19 @@ def main():
             parser = Parser(tokens)
             AstPrinter().print(parser.parse())
     else:
-        print("Interpreter not yet implemented", file=sys.stderr)
-        sys.exit(1)
+        scanner = Scanner(file_contents)
+        tokens = scanner.scan_tokens()
+        try:
+            parser = Parser(tokens)
+            statements = parser.parse()
+            if statements:
+                try:
+                    Interpreter().interpret(statements)
+                except InterpreterError as e:
+                    print(e, file = sys.stderr)
+                    exit(70)
+        except ParseError:
+            exit(65)
 
 if __name__ == "__main__":
     main()
