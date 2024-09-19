@@ -7,8 +7,14 @@ Alongside the interpreter, this also includes continuous integration and continu
 ## Usage
 
 To use this project, we provide a `pip` package which you can install using `pip install pplox`. 
+
+### Command Line
+
 To use the tokenizer run `pplox --tokenize <filename>`.
-Currently expression evaluation is under development.  
+This reads the file and prints the tokens.
+
+To use the parser use `pplox --parse <filename>`.
+This prints out an abstract syntax tree of the file.
 
 ## Project Layout
 
