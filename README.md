@@ -27,4 +27,18 @@ tokens = scanner.scan_tokens()
 ```
 This gives you a list of tokens to be parsed and interpreted.
 
+For a minimal interpreter
+```py
+from pplox.scanner import Scanner
+from pplox.parser import Parser
+from pplox.interpreter import Interpreter
+
+scanner = Scanner('print "Hello world";')
+tokens = scanner.scan_tokens()
+parser = Parser(tokens)
+statements = parser.parse()
+interpreter = Interpreter()
+interpreter.interpret(statements)
+```
+
 See https://github.com/karlcaga/pplox_web/ for an example application of pplox being used as a library.
